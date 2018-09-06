@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Vos Projets</h2>
+    <div class="list-group">
+      <button
+        class="list-group-item"
+        *ngFor="let project of projects; let i = index"
+        (click)="onViewProject(i)">
+        <h3 class="list-group-item-heading">
+          {{ project.title }}
+          <button class="btn btn-default pull-right" (click)="onDeleteProject(project)">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
+        </h3>
+        <p class="list-group-item-text">{{ project.author }}</p>
+      </button>
+    </div>
+    <button class="btn btn-primary" (click)="onNewProject()">Nouveau projet</button>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+npm install font-awesome 
+1
+	
+npm install angularfire2 --save

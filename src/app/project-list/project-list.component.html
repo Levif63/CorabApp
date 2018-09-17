@@ -5,9 +5,12 @@
       <button
         class="list-group-item"
         *ngFor="let project of projects; let i = index"
-        (click)="onViewProject(i)">
+        (click)="onViewProject(project,i)">
         <h3 class="list-group-item-heading">
           {{ project.title }}
+          <button class="btn btn-default pull-right" (click)="onEditProject(i)">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
           <button class="btn btn-default pull-right" (click)="onDeleteProject(project)">
             <span class="glyphicon glyphicon-minus"></span>
           </button>

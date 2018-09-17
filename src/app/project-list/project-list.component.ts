@@ -23,21 +23,35 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       }
     );
     this.projectsService.emitProjects();
+    var x = this.projectsService.getData();
+    x.snapshotChanges().subscribe(item => {
+      this.projects = [];
+      item.forEach(element => {
+        var y = element.payload.toJSON();
+        y["$key"] = element.key;
+        this.projects.push(y as Project);
+      });
+    });
   }
 
   onNewProject() {
     this.router.navigate(['/projects', 'new']);
   }
 
-  onDeleteProject(project: Project) {
-    this.projectsService.removeProject(project);
+
+
+  onEditProject(project: Project,id: number) {
+    this.projectsService.selectedProject = Object.assign({}, project);
+    this.router.navigate(['/projects', 'edit', id]);
   }
 
-  onViewProject(id: number) {
+  onViewProject(project: Project, id: number) {
+    this.projectsService.selectedProject = Object.assign({}, project);
     this.router.navigate(['/projects', 'view', id]);
   }
   
   ngOnDestroy() {
     this.projectsSubscription.unsubscribe();
   }
+  
 }

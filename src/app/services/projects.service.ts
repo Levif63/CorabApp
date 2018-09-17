@@ -1,66 +1,55 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Project } from '../models/project.model';
-import * as firebase from 'firebase';
-import DataSnapshot = firebase.database.DataSnapshot;
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'
 
 @Injectable()
 export class ProjectsService {
-
+  projectList: AngularFireList<any>;
+  selectedProject: Project = new Project("","");
+  constructor(private firebase :AngularFireDatabase ) { };
+ 
+  
   projects: Project[] = [];
   projectsSubject = new Subject<Project[]>();
+  projectData: AngularFireList<any>;
 
   emitProjects() {
     this.projectsSubject.next(this.projects);
   }
 
-  saveProjects() {
-    firebase.database().ref('/projects').set(this.projects);
+  getData(){
+    this.projectList = this.firebase.list('projects');
+    return this.projectList;
   }
 
-  getProjects() {
-    firebase.database().ref('/projects')
-      .on('value', (data: DataSnapshot) => {
-          this.projects = data.val() ? data.val() : [];
-          this.emitProjects();
-        }
-      );
-  }
-
-  getSingleProject(id: number) {
-    return new Promise(
-      (resolve, reject) => {
-        firebase.database().ref('/projects/' + id).once('value').then(
-          (data: DataSnapshot) => {
-            resolve(data.val());
-          }, (error) => {
-            reject(error);
-          }
-        );
-      }
-    );
-  }
-
-  constructor() {
-    this.getProjects();
-  }
 
   createNewProject(newProject: Project) {
-    this.projects.push(newProject);
-    this.saveProjects();
+    if(!this.projectList){
+      this.projectList = this.getData();
+    }
+    this.projectList.push(
+    {
+      photo: newProject.photo,
+      synopsis: newProject.synopsis,
+      title: newProject.title,
+      author: newProject.author,      
+    });
     this.emitProjects();
   }
 
-  removeProject(project: Project) {
-    const projectIndexToRemove = this.projects.findIndex(
-      (projectEl) => {
-        if(projectEl === project) {
-          return true;
-        }
-      }
-    );
-    this.projects.splice(projectIndexToRemove, 1);
-    this.saveProjects();
-    this.emitProjects();
-  }
+
+  updateProject(updateProject: Project): void {
+
+    this.projectList.update(updateProject.$key,
+    {
+      photo: updateProject.photo,
+      synopsis: updateProject.synopsis,
+      title: updateProject.title,
+      author: updateProject.author,      
+    }); 
+    this.emitProjects();    
+ }
+
+
 }

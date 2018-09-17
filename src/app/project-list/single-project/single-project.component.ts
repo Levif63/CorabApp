@@ -16,13 +16,8 @@ export class SingleProjectComponent implements OnInit {
               private router: Router) {}
 
   ngOnInit() {
-    this.project = new Project('', '');
+
     const id = this.route.snapshot.params['id'];
-    this.projectsService.getSingleProject(+id).then(
-      (project: Project) => {
-        this.project = project;
-      }
-    );
   }
 
   onBack() {

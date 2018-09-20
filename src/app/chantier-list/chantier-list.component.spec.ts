@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SingleProjectComponent } from './single-project.component';
+import { ChantierListComponent } from './chantier-list.component';
 
-describe('SingleProjectComponent', () => {
-  let component: SingleProjectComponent;
-  let fixture: ComponentFixture<SingleProjectComponent>;
+describe('ChantierListComponent', () => {
+  let component: ChantierListComponent;
+  let fixture: ComponentFixture<ChantierListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SingleProjectComponent ]
+      declarations: [ ChantierListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SingleProjectComponent);
+    fixture = TestBed.createComponent(ChantierListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

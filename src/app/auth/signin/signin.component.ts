@@ -34,7 +34,7 @@ export class SigninComponent implements OnInit {
     
     this.authService.signInUser(email, password).then(
       () => {
-        this.router.navigate(['/projects']);
+        this.router.navigate(['/chantiers']);
       },
       (error) => {
         this.errorMessage = error;

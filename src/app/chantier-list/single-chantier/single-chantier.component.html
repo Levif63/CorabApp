@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>{{ (chantier | async)?.title }}</h1>
+    <h3>{{ (chantier | async)?.author }}</h3>
+    <p>{{ (chantier | async)?.synopsis }}</p>
+    <br/>
+	<br/>
+	<p>Plan détaillé</p>
+	<form-upload></form-upload>
+	<br/>
+	<br/>	 
+	<list-upload></list-upload>
+    <button class="btn btn-default" (click)="onBack()">Retour</button>
+  </div>
+</div>

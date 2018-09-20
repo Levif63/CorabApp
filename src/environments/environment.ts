@@ -8,7 +8,7 @@ export const environment = {
 	apiKey: "AIzaSyB0IMheWsaKO0u8ea5wv7sxHRTy4K6750Q",
     authDomain: "corabapp.firebaseapp.com",
     databaseURL: "https://corabapp.firebaseio.com",
-    projectId: "corabapp",
+    chantierId: "corabapp",
     storageBucket: "corabapp.appspot.com",
     messagingSenderId: "233633627533"
   }

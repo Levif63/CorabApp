@@ -12,24 +12,27 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { SigninComponent } from './auth/signin/signin.component';
-import { ProjectListComponent } from './project-list/project-list.component';
-import { SingleProjectComponent } from './project-list/single-project/single-project.component';
-import { ProjectFormComponent } from './project-list/project-form/project-form.component';
-import { EditProjectComponent } from './project-list/edit-project/edit-project.component';
+import { ChantierListComponent } from './chantier-list/chantier-list.component';
+import { SingleChantierComponent } from './chantier-list/single-chantier/single-chantier.component';
+import { ChantierFormComponent } from './chantier-list/chantier-form/chantier-form.component';
+import { EditChantierComponent } from './chantier-list/edit-chantier/edit-chantier.component';
 import { AuthService } from './services/auth.service';
 import { HeaderComponent } from './header/header.component';
 import { AuthGuardService } from './services/auth-guard.service';
-import { ProjectsService } from './services/projects.service';
+import { ChantiersService } from './services/chantiers.service';
+import { FormUploadComponent } from './upload/form-upload/form-upload.component';
+import { ListUploadComponent } from './upload/list-upload/list-upload.component';
+import { DetailsUploadComponent } from './upload/details-upload/details-upload.component';
 
 const appRoutes: Routes = [
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/signin', component: SigninComponent },
-  { path: 'projects', canActivate: [AuthGuardService], component: ProjectListComponent },
-  { path: 'projects/new', canActivate: [AuthGuardService], component: ProjectFormComponent },
-  { path: 'projects/view/:id', canActivate: [AuthGuardService], component: SingleProjectComponent },
-  { path: 'projects/edit/:id', canActivate: [AuthGuardService], component: EditProjectComponent },
-  { path: '', redirectTo: 'projects', pathMatch: 'full' },
-  { path: '**', redirectTo: 'projects' }
+  { path: 'chantiers', canActivate: [AuthGuardService], component: ChantierListComponent },
+  { path: 'chantiers/new', canActivate: [AuthGuardService], component: ChantierFormComponent },
+  { path: 'chantiers/view/:id', canActivate: [AuthGuardService], component: SingleChantierComponent },
+  { path: 'chantiers/edit/:id', canActivate: [AuthGuardService], component: EditChantierComponent },
+  { path: '', redirectTo: 'chantiers', pathMatch: 'full' },
+  { path: '**', redirectTo: 'chantiers' }
 ];
 
 @NgModule({
@@ -37,12 +40,15 @@ const appRoutes: Routes = [
     AppComponent,
     SignupComponent,
     SigninComponent,
-    ProjectListComponent,
-    SingleProjectComponent,
-    ProjectFormComponent,
+    ChantierListComponent,
+    SingleChantierComponent,
+    ChantierFormComponent,
     HeaderComponent,
-    ProjectListComponent,
-    EditProjectComponent
+    ChantierListComponent,
+    EditChantierComponent,
+    FormUploadComponent,
+    ListUploadComponent,
+    DetailsUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +60,7 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     AngularFireStorageModule
   ],
-  providers: [AuthService, ProjectsService, AuthGuardService],
+  providers: [AuthService, ChantiersService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

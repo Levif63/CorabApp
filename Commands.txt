@@ -2,3 +2,8 @@ npm install font-awesome
 1
 	
 npm install angularfire2 --save
+
+ng g s upload/UploadFile
+ng g c upload/FormUpload
+ng g c upload/ListUpload
+ng g c upload/DetailsUpload

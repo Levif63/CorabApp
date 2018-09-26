@@ -1,8 +1,18 @@
 <div class="panel panel-primary">
   <div class="panel-heading">List of Files</div>
-  <div *ngFor="let file of fileUploads">
-    <div class="panel-body">
-      <details-upload [fileUpload]='file'></details-upload>
-    </div>
-  </div>
+	<div *ngIf="fileUploads">
+	  <div class="scrolling-wrapper-flexbox">
+	  	<div *ngFor="let file of fileUploads | async">
+	  	
+  			<div class="card">
+	    		<button (click)='deleteFileUpload(fileUpload)'
+					class="btn btn-danger btn-xs" style="float: right">Delete</button>
+				<a href="{{file.url}}">
+				<img src="{{file.url}}" alt="{{file.name}}" style="max-height:150px"/>
+				</a>
+			</div>
+		</div>
+	  </div>
+	</div>
+  
 </div>

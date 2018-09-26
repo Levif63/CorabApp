@@ -25,7 +25,6 @@ export class ChantierFormComponent implements OnInit {
     this.user = firebase.auth().currentUser;
     this.user_uid = this.user.uid;
     this.basePath = '/chantiers/' + this.user_uid;
-    console.log(this.basePath);
     this.initForm();
   }
  

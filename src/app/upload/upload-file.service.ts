@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
-
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 import { FileUpload } from './fileupload';
 
 @Injectable({
@@ -14,9 +15,9 @@ export class UploadFileService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  pushFileToStorage(fileUpload: FileUpload, progress: { percentage: number }) {
+  pushFileToStorage(path: String, fileUpload: FileUpload, progress: { percentage: number }) {
     const storageRef = firebase.storage().ref();
-    const uploadTask = storageRef.child(`${this.basePath}/${fileUpload.file.name}`).put(fileUpload.file);
+    const uploadTask = storageRef.child(`${path}/${fileUpload.file.name}`).put(fileUpload.file);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot) => {
@@ -34,19 +35,23 @@ export class UploadFileService {
           console.log('File available at', downloadURL);
           fileUpload.url = downloadURL;
           fileUpload.name = fileUpload.file.name;
-          this.saveFileData(fileUpload);
+          this.saveFileData(path, fileUpload);
         });
       }
     );
   }
 
-  private saveFileData(fileUpload: FileUpload) {
-    this.db.list(`${this.basePath}/`).push(fileUpload);
+  private saveFileData(path: String, fileUpload: FileUpload) {
+    this.db.list(`${path}/`).push(fileUpload);
   }
 
-  getFileUploads(numberItems): AngularFireList<FileUpload> {
-    return this.db.list(this.basePath, ref =>
-      ref.limitToLast(numberItems));
+  getFileUploads(path): Observable<any> {
+    // Use snapshotChanges().map() to store the key
+    return this.db.list(path).snapshotChanges().pipe(
+      map(changes => 
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
   }
 
   deleteFileUpload(fileUpload: FileUpload) {

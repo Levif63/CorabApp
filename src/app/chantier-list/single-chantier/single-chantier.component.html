@@ -1,8 +1,31 @@
 <div class="row">
   <div class="col-xs-12">
-    <h1>{{ (chantier | async)?.title }}</h1>
-    <h3>{{ (chantier | async)?.author }}</h3>
-    <p>{{ (chantier | async)?.synopsis }}</p>
+    <div class="course-detail" *ngIf="chantierObs | async as chantier; else loading">
+    <h1>{{ chantier.title }}</h1>
+    <h3>{{ chantier.author }}</h3>
+    
+    <ng-template [ngIf]="editSynopsis" [ngIfElse]="notEditSynopsis">
+      <input #synopsis type="text" id="synopsis" value="{{ chantier.synopsis }}">
+      <span>
+          <button class="btn btn-sm btn-primary" (click)="updateChantierItem('synopsis', synopsis.value)"><span class="glyphicon glyphicon-ok"></span></button> &nbsp;
+          <button class="btn btn-sm btn-danger" (click)="editSynopsis=false"><span class="glyphicon glyphicon-remove"></span></button>
+      </span>
+    </ng-template>
+
+    <ng-template #notEditSynopsis>      
+      <span>
+        <p>{{ chantier.synopsis }}
+        <button class="btn btn-sm btn-default" (click)="editSynopsis=true">
+              <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        </p>
+      </span>
+    </ng-template>
+  </div>
+  <ng-template #loading>
+    <div>Loading ...</div>
+  </ng-template> 
+
     <br/>
 	<br/>
 	<p>Plan détaillé</p>

@@ -1,5 +1,6 @@
 {
   "extends": "../tsconfig.json",
+  "types": ["googlemaps"],
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "types": []
@@ -8,4 +9,5 @@
     "test.ts",
     "**/*.spec.ts"
   ]
+
 }

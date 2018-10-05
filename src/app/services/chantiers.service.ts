@@ -26,8 +26,14 @@ export class ChantiersService {
 
   }
 
-  getSingleChantier(path): Observable<any> {
+  getSingleChantier(path: any): Observable<any> {
     return this.firebase.object(path).valueChanges();
+  }
+
+  updateChantierItem(path: any, item: any, value: String) {
+    const itemRef = this.firebase.object(path);
+    console.log(path);
+    itemRef.update({ [item]: value});
   }
 
   removeChantier(chantier: Chantier) {

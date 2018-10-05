@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 
+declare const google: any;
+
 @Component({
   selector: 'app-chantier-list',
   templateUrl: './chantier-list.component.html',
@@ -18,7 +20,11 @@ export class ChantierListComponent implements OnInit {
   public user_uid: String;
   public basePath: String;
 
-  chantiersSubscription: Subscription;
+  public lat: Number = 24.799448;
+  public lng: Number = 120.979021;
+   
+  public origin: any;
+  public destination: any;
 
   constructor(private chantiersService: ChantiersService, private router: Router) {}
 
@@ -26,9 +32,21 @@ export class ChantierListComponent implements OnInit {
     this.user = firebase.auth().currentUser;
     this.user_uid = this.user.uid;
     this.basePath = '/chantiers/' + this.user_uid;
+    console.log('/chantiers/' + this.user_uid);
     this.chantiers = this.getChantiers(this.basePath);
+    this.getDirection();
+    const nyc = new google.maps.LatLng(40.715, -74.002);
+    const london = new google.maps.LatLng(51.506, -0.119);
+    const distance = google.maps.geometry.spherical.computeDistanceBetween(nyc, london) / 1000;
+    console.log(distance)
   }
-
+getDirection() {
+  this.origin = { lat: 24.799448, lng: 120.979021 };
+  this.destination = { lat: 24.799524, lng: 120.975017 };
+ 
+  // this.origin = 'Taipei Main Station'
+  // this.destination = 'Taiwan Presidential Office'
+}
   getChantiers(path) {
     return this.chantiersService.getChantiers(path);
   }

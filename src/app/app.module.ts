@@ -8,6 +8,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { environment } from '../environments/environment';
+import { AgmCoreModule, MapsAPILoader } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 
 import { AppComponent } from './app.component';
 import { SignupComponent } from './auth/signup/signup.component';
@@ -58,7 +60,12 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB0IMheWsaKO0u8ea5wv7sxHRTy4K6750Q&libraries=geometry',
+      libraries: ['geometry']
+    }),
+    AgmDirectionModule
   ],
   providers: [AuthService, ChantiersService, AuthGuardService],
   bootstrap: [AppComponent]

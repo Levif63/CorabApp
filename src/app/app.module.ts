@@ -62,7 +62,7 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB0IMheWsaKO0u8ea5wv7sxHRTy4K6750Q&libraries=geometry',
+      apiKey: 'AIzaSyB0IMheWsaKO0u8ea5wv7sxHRTy4K6750Q&libraries',
       libraries: ['geometry']
     }),
     AgmDirectionModule

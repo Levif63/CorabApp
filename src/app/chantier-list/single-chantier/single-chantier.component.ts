@@ -15,7 +15,7 @@ export class SingleChantierComponent implements OnInit {
   user: firebase.User;
   public user_uid: String;
   public chantierObs: Observable<any>;
-  public editSynopsis: Boolean;
+  public editAdresse: Boolean;
 
   constructor(private route: ActivatedRoute, private chantiersService: ChantiersService,
               private router: Router) {}
@@ -26,7 +26,7 @@ export class SingleChantierComponent implements OnInit {
     const path = '/chantiers/' + this.user_uid + '/' + this.route.snapshot.params['id'];
     console.log(path);
     this.chantierObs = this.getSingleChantier(path);
-    this.editSynopsis = false;
+    this.editAdresse = false;
   }
 
   getSingleChantier(path) {    
@@ -35,13 +35,18 @@ export class SingleChantierComponent implements OnInit {
 
   onEditChantierItem(itemName) {    
     console.log(itemName);
-    if (itemName == 'editSynopsis') { this.editSynopsis = true};
+    if (itemName == 'editAdresse') { this.editAdresse = true};
   }
 
   updateChantierItem(itemName, itemValue) {   
     console.log(itemName + ': ' + itemValue);
     const path = '/chantiers/' + this.user_uid + '/' + this.route.snapshot.params['id']; 
     this.chantiersService.updateChantierItem(path, itemName, itemValue);
+    switch(itemName){
+    case "adresse":{this.editAdresse = false;}
+    
+    }
+    
   }
 
   onBack() {

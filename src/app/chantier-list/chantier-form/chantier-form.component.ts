@@ -32,16 +32,16 @@ export class ChantierFormComponent implements OnInit {
     this.chantierForm = this.formBuilder.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
-      synopsis: ''
+      adresse: ''
     });
   }
   
   onSaveChantier() {
     const title = this.chantierForm.get('title').value;
     const author = this.chantierForm.get('author').value;
-    const synopsis = this.chantierForm.get('synopsis').value;
+    const adresse = this.chantierForm.get('adresse').value;
     const newChantier = new Chantier(title, author);
-    newChantier.synopsis = synopsis;
+    newChantier.adresse = adresse;
     this.chantiersService.createNewChantier(this.basePath, newChantier);
     this.router.navigate(['/chantiers']);
   }

@@ -35,10 +35,7 @@ export class ChantierListComponent implements OnInit {
     console.log('/chantiers/' + this.user_uid);
     this.chantiers = this.getChantiers(this.basePath);
     this.getDirection();
-    const nyc = new google.maps.LatLng(40.715, -74.002);
-    const london = new google.maps.LatLng(51.506, -0.119);
-    const distance = google.maps.geometry.spherical.computeDistanceBetween(nyc, london) / 1000;
-    console.log(distance)
+
   }
 getDirection() {
   this.origin = { lat: 24.799448, lng: 120.979021 };

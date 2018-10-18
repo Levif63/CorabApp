@@ -1,46 +1,52 @@
 <div class="row">
-  <div class="col-md-8 order-md-1">
-    <div class="course-detail" *ngIf="chantierObs | async as chantier; else loading">
-    <div class="py-5 text-center">
-        <h2>{{ chantier.title }}</h2>
-      </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
+  <div *ngIf="chantierObs | async as chantier; else loading">
+    <div class="py-5 text-center page-header">
+      <h1>{{ chantier.title }}</h1>
+    </div>
+    <br><br>
+
+    <h3>Lieux</h3>
+    <div class="row mb-2 well">
+
+      <div class="col-md-4">
         <label for="adresse">Adresse: </label>
         <ng-template [ngIf]="editAdresse" [ngIfElse]="notEditAdresse">
           <input #adresse type="text" id="adresse" value="{{ chantier.adresse }}">
           <span>
-              <button class="btn btn-sm btn-primary" (click)="updateChantierItem('adresse', adresse.value)"><span class="glyphicon glyphicon-ok"></span></button>
+              <button class="btn btn-xs btn-primary" (click)="updateChantierItem('adresse', adresse.value)"><span class="glyphicon glyphicon-ok"></span></button>
           </span>
         </ng-template>
         <ng-template #notEditAdresse>      
           <span>
             {{ chantier.adresse }}
-            <button class="btn btn-sm btn-default" (click)="editAdresse=true">
+            <button class="btn btn-xs btn-default" (click)="editAdresse=true">
                   <span class="glyphicon glyphicon-pencil"></span>
             </button>            
           </span>
         </ng-template>
       </div>
-      <div class="col-md-6 mb-3">
+      <div class="col-md-4">
         <label for="ville">Ville: </label>
         <ng-template [ngIf]="editVille" [ngIfElse]="notEditVille">
           <input #ville type="text" id="ville" value="{{ chantier.ville }}">
           <span>
-              <button class="btn btn-sm btn-primary" (click)="updateChantierItem('ville', ville.value)"><span class="glyphicon glyphicon-ok"></span></button>
+              <button class="btn btn-xs btn-primary" (click)="updateChantierItem('ville', ville.value)"><span class="glyphicon glyphicon-ok"></span></button>
           </span>
         </ng-template>
         <ng-template #notEditVille>      
           <span>
             {{ chantier.ville }}
-            <button class="btn btn-sm btn-default" (click)="editVille=true">
+            <button class="btn btn-xs btn-default" (click)="editVille=true">
                   <span class="glyphicon glyphicon-pencil"></span>
             </button>            
           </span>
         </ng-template>
       </div>
+      <div class="col-md-4">
+        <label for="ville">Distance: {{ bingRoute.resourceSets['0']['resources']['0']['travelDistance'] }}</label>
+      </div>
     </div>
-  </div>
+
 
   <ng-template #loading>
     <div>Loading ...</div>

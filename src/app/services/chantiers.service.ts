@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { Chantier } from '../models/chantier.model';
+import { BingRoute } from '../models/bingRoute.model';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
@@ -8,7 +10,7 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class ChantiersService {
 
-  constructor(private firebase :AngularFireDatabase ) { };
+  constructor(private firebase :AngularFireDatabase, protected http: HttpClient) { };
  
   createNewChantier(basePath, newChantier) {
     const obj = this.firebase.database.ref(basePath);
@@ -38,6 +40,10 @@ export class ChantiersService {
 
   removeChantier(chantier: Chantier) {
 
+  }
+
+  getBingRoute(url: string) {
+    return this.http.get(url);
   }
 
 }

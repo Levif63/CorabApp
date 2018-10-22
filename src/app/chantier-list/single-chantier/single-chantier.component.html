@@ -13,7 +13,7 @@
         <ng-template [ngIf]="editAdresse" [ngIfElse]="notEditAdresse">
           <input #adresse type="text" id="adresse" value="{{ chantier.adresse }}">
           <span>
-              <button class="btn btn-xs btn-primary" (click)="updateChantierItem('adresse', adresse.value)"><span class="glyphicon glyphicon-ok"></span></button>
+              <button class="btn btn-xs btn-primary" (click)="updateChantierItem('adresse', adresse.value);editAdresse=false;calculateBingRoute(adresse.value, chantier.ville)"><span class="glyphicon glyphicon-ok"></span></button>
           </span>
         </ng-template>
         <ng-template #notEditAdresse>      
@@ -30,7 +30,7 @@
         <ng-template [ngIf]="editVille" [ngIfElse]="notEditVille">
           <input #ville type="text" id="ville" value="{{ chantier.ville }}">
           <span>
-              <button class="btn btn-xs btn-primary" (click)="updateChantierItem('ville', ville.value)"><span class="glyphicon glyphicon-ok"></span></button>
+              <button class="btn btn-xs btn-primary" (click)="updateChantierItem('ville', ville.value);editVille=false;calculateBingRoute(chantier.adresse, ville.value)"><span class="glyphicon glyphicon-ok"></span></button>
           </span>
         </ng-template>
         <ng-template #notEditVille>      
@@ -43,7 +43,7 @@
         </ng-template>
       </div>
       <div class="col-md-4">
-        <label for="ville">Distance: {{ bingRoute.resourceSets['0']['resources']['0']['travelDistance'] }}</label>
+        <label for="ville">Distance: {{ chantier.distance }}</label>
       </div>
     </div>
 

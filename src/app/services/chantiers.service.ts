@@ -42,8 +42,9 @@ export class ChantiersService {
 
   }
 
-  getBingRoute(url: string) {
-    return this.http.get(url);
+  async getBingRoute(destination: string): Promise<any> {
+    const start = 'che Tour, 63800 LA ROCHE NOIRE'
+    return await this.http.get('http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=' + start + '&wp.1=' + destination + '&routeAttributes=excludeItinerary&key=AiHTHK6q2pPwIVATMZUVphUB5UZVtS6a0wXR-4JrZJxXEaT19PX12EicfDxHD7kJ').toPromise();
   }
 
 }

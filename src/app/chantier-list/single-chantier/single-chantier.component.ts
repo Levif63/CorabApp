@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chantier } from '../../models/chantier.model';
 import { BingRoute } from '../../models/bingRoute.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChantiersService } from '../../services/chantiers.service';
 import { Observable } from 'rxjs/Observable';
@@ -15,14 +16,18 @@ declare const google: any;
 })
 export class SingleChantierComponent implements OnInit {
   
+  lieuxForm: FormGroup;
   user: firebase.User;
   public user_uid: String;
   public chantierObs: Observable<any>;
   public editAdresse: Boolean;
   public bingRoute: BingRoute;
+  public distance: number;
+  public fullAdresse: string;
+  error: any;
 
   constructor(private route: ActivatedRoute, private chantiersService: ChantiersService,
-              private router: Router) {}
+              private router: Router, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.user = firebase.auth().currentUser;
@@ -31,15 +36,11 @@ export class SingleChantierComponent implements OnInit {
     console.log(path);
     this.chantierObs = this.getSingleChantier(path);
     this.editAdresse = false;
-    const nyc = new google.maps.LatLng(40.715, -74.002);
-    const london = new google.maps.LatLng(51.506, -0.119);
-    const distance = google.maps.geometry.spherical.computeDistanceBetween(nyc, london) / 1000;
-
-    this.chantiersService.getBingRoute('http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=Joze,MN&wp.1=06000%20Nice,MN&routeAttributes=excludeItinerary&key=AiHTHK6q2pPwIVATMZUVphUB5UZVtS6a0wXR-4JrZJxXEaT19PX12EicfDxHD7kJ')
-    .subscribe((data: BingRoute) => this.bingRoute = { ...data });
-
+    this.lieuxForm = this.formBuilder.group({
+      ville: '',
+      adresse: ''
+    });
   }
-
 
   getSingleChantier(path) {    
     return this.chantiersService.getSingleChantier(path);
@@ -54,11 +55,23 @@ export class SingleChantierComponent implements OnInit {
     console.log(itemName + ': ' + itemValue);
     const path = '/chantiers/' + this.user_uid + '/' + this.route.snapshot.params['id']; 
     this.chantiersService.updateChantierItem(path, itemName, itemValue);
-    switch(itemName){
-    case "adresse":{this.editAdresse = false;}
-    
+  }
+
+  async calculateBingRoute(adresse, ville) {
+    this.fullAdresse = adresse + ' ' + ville;
+    await this.chantiersService.getBingRoute(this.fullAdresse).then(
+      (data: BingRoute) => this.bingRoute = { ...data }, // success path
+      error => this.error = error // error path
+    );
+
+    if(this.error) { 
+      console.log(this.error) ;
+      this.updateChantierItem('distance', 'Non disponible');
+    } else {
+      this.distance = Math.round(this.bingRoute.resourceSets['0']['resources']['0']['travelDistance']);
+      this.updateChantierItem('distance', this.distance);      
     }
-    
+    this.error = undefined;
   }
 
   onBack() {
